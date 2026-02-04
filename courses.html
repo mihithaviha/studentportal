@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Extra styles just for the courses layout */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .course-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .course-card h3 { margin-bottom: 10px; }
+        .course-card p { color: #666; font-size: 0.9rem; }
+        .status { 
+            display: inline-block; 
+            margin-top: 10px; 
+            padding: 5px 10px; 
+            border-radius: 15px; 
+            font-size: 0.8rem; 
+            background: #e1f5fe; 
+            color: #01579b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="user-profile">
+                <div class="profile-img">M</div>
+                <div class="user-details">
+                    <h3>Midhun</h3>
+                    <p>Roll: 2024CS101</p>
+                </div>
+            </div>
+            <hr>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="courses.html" class="active">Courses</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Enrolled Courses</h1>
+                <p>Track your current semester subjects</p>
+            </header>
+
+            <section class="course-grid">
+                <div class="course-card">
+                    <h3>Data Structures</h3>
+                    <p>Instructor: Dr. Smith</p>
+                    <span class="status">In Progress</span>
+                </div>
+
+                <div class="course-card">
+                    <h3>Web Development</h3>
+                    <p>Instructor: Prof. Johnson</p>
+                    <span class="status">In Progress</span>
+                </div>
+
+                <div class="course-card">
+                    <h3>Database Systems</h3>
+                    <p>Instructor: Dr. Lee</p>
+                    <span class="status">Completed</span>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.sidebar ul li a.active, .sidebar ul li a:hover {
+    background-color: #34495e;
+    color: white;
+}
+
+/* Main Content Styling */
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.progress-container {
+    background-color: #eee;
+    border-radius: 20px;
+    margin: 15px 0;
+}
+
+.progress-bar {
+    width: 0%; /* Changed by JS */
+    height: 30px;
+    background-color: #27ae60;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 20px;
+    transition: width 0.5s ease-in-out;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* User Profile Sidebar Styling */
+.user-profile {
+    padding: 10px 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    background-color: #3498db;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.user-details h3 {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.user-details p {
+    font-size: 0.8rem;
+    color: #bdc3c7;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #3e4f5f;
+    margin-bottom: 20px;
+}

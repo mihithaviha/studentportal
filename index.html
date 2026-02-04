@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="user-profile">
+                <div class="profile-img">M</div>
+                <div class="user-details">
+                    <h3 id="display-name">Midhun</h3>
+                    <p id="display-roll">Roll: 2024CS101</p>
+                </div>
+            </div>
+            <hr>
+            <ul>
+                <li><a href="index.html" class="active">Dashboard</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Welcome back, Midhun!</h1>
+            </header>
+
+            <section class="stats">
+                <div class="card">
+                    <h3>Attendance</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="attendanceBar">0%</div>
+                    </div>
+                    <p>Current: <span id="attendanceVal">75</span>%</p>
+                    <button onclick="updateAttendance()">Mark Today's Attendance</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

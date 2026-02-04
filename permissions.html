@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate Pass System - Persistent</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* CSS: Gate Pass Specific Styles */
+        .pass-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .request-form, .status-card, .history-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .request-form { flex: 1; min-width: 300px; }
+        .status-card { flex: 1; min-width: 300px; }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #2c3e50; }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .submit-btn:hover { background-color: #2980b9; }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 15px; }
+        .pending { background: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
+        .approved { background: #2ecc71; box-shadow: 0 0 5px #2ecc71; }
+
+        .hidden { display: none; }
+        #qr-section {
+            text-align: center;
+            border-top: 2px dashed #eee;
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+
+        /* History Table Styles */
+        .history-section { width: 100%; margin-top: 20px; }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { color: #7f8c8d; font-size: 0.9rem; }
+
+        .type-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .half { background: #e3f2fd; color: #1976d2; }
+        .full { background: #fff3e0; color: #f57c00; }
+        
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="user-profile">
+                <div class="profile-img">M</div>
+                <div class="user-details">
+                    <h3>Midhun</h3>
+                    <p>Roll: 2024CS101</p>
+                </div>
+            </div>
+            <hr>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="permission.html" class="active">Gate Pass</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Gate Pass Request</h1>
+                <p>Digital confirmation for students, parents, and coaches.</p>
+            </header>
+
+            <div class="pass-container">
+                <section class="request-form">
+                    <h3>New Permission Request</h3>
+                    <div class="input-group">
+                        <label>Reason for Leaving</label>
+                        <input type="text" id="reason" placeholder="e.g. Hospital Visit">
+                    </div>
+                    <div class="input-group">
+                        <label>Departure Date</label>
+                        <input type="date" id="date">
+                    </div>
+                    <div class="input-group">
+                        <label>Leave Type</label>
+                        <select id="leaveType">
+                            <option value="Half Day">Half Day</option>
+                            <option value="Full Day">Full Day</option>
+                        </select>
+                    </div>
+                    <button class="submit-btn" onclick="submitRequest()">Submit & Notify</button>
+                </section>
+
+                <section class="status-card">
+                    <h3>Live Approval Status</h3>
+                    <div class="status-item">
+                        <div class="status-dot pending" id="parent-dot"></div>
+                        <div class="status-text">
+                            <strong>Parent Confirmation</strong>
+                            <p id="parent-stat">Waiting for parent response...</p>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-dot pending" id="coach-dot"></div>
+                        <div class="status-text">
+                            <strong>Success Coach</strong>
+                            <p id="coach-stat">Awaiting coach approval...</p>
+                        </div>
+                    </div>
+
+                    <div id="qr-section" class="hidden">
+                        <div class="qr-box">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=GatePass-Approved-Midhun" alt="QR Code">
+                        </div>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">PASS READY TO SCAN</p>
+                    </div>
+                </section>
+            </div>
+
+            <section class="history-section">
+                <div class="section-header">
+                    <h2>Permission Records</h2>
+                    <button class="clear-btn" onclick="clearHistory()">Clear History</button>
+                </div>
+                <div class="history-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Load data from LocalStorage when page opens
+        window.onload = function() {
+            loadHistory();
+        };
+
+        function submitRequest() {
+            const reason = document.getElementById('reason').value;
+            const date = document.getElementById('date').value;
+            const type = document.getElementById('leaveType').value;
+
+            if (!reason || !date) {
+                alert("Please fill in all the details!");
+                return;
+            }
+
+            // reset status for new request
+            document.getElementById('parent-dot').className = "status-dot pending";
+            document.getElementById('coach-dot').className = "status-dot pending";
+            document.getElementById('qr-section').classList.add("hidden");
+
+            // Simulation of approvals
+            setTimeout(() => {
+                document.getElementById('parent-dot').className = "status-dot approved";
+                document.getElementById('parent-stat').innerText = "Confirmed by Parent (SMS)";
+                
+                setTimeout(() => {
+                    document.getElementById('coach-dot').className = "status-dot approved";
+                    document.getElementById('coach-stat').innerText = "Approved by Success Coach";
+                    document.getElementById('qr-section').classList.remove("hidden");
+                    
+                    // Save to history once approved
+                    const newRecord = { reason, date, type, status: "Approved" };
+                    saveToLocalStorage(newRecord);
+                    loadHistory();
+                }, 1500);
+            }, 1500);
+        }
+
+        function saveToLocalStorage(record) {
+            let history = JSON.parse(localStorage.getItem('gatePassData')) || [];
+            history.unshift(record); // Add new record to the top
+            localStorage.setItem('gatePassData', JSON.stringify(history));
+        }
+
+        function loadHistory() {
+            const tableBody = document.getElementById('historyBody');
+            let history = JSON.parse(localStorage.getItem('gatePassData')) || [];
+            
+            tableBody.innerHTML = history.map(item => `
+                <tr>
+                    <td>${item.date}</td>
+                    <td><span class="type-badge ${item.type === 'Half Day' ? 'half' : 'full'}">${item.type}</span></td>
+                    <td>${item.reason}</td>
+                    <td style="color: #27ae60; font-weight: bold;">${item.status}</td>
+                </tr>
+            `).join('');
+        }
+
+        function clearHistory() {
+            if (confirm("Are you sure you want to delete all records?")) {
+                localStorage.removeItem('gatePassData');
+                loadHistory();
+            }
+        }
+    </script>
+</body>
+</html>
